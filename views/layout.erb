@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stregkoder</title>
+    <link rel="stylesheet" href="/style/foundation.css" />
+    <link rel="stylesheet" href="/style/other_design.css" />
+    <script src="/scripts/vendor/modernizr.js"></script>
+  </head>
+  <body>
+    <%= erb :topbar %>
+    <div class="row" style="margin-top:20px">
+      <div class="small-12 column">
+        <%= yield %>
+      </div>
+    </div>
+    <script src="/scripts/vendor/jquery.js"></script>
+    <script src="/scripts/JsBarcode.js"></script>
+    <script src="/scripts/CODE128.js"></script>
+    <script src="/scripts/foundation.min.js"></script>
+    <script src="/scripts/print.js"></script>
+    <script src="/scripts/search.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

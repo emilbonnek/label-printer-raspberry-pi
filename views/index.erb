@@ -1,0 +1,95 @@
+<div class="row">
+  <div class="small-centered medium-4 column">
+    <form id="search-form" action="/search" method="post">
+      <input type="text" name="item_number" placeholder="Søg" id="q">
+      <input type="submit" class="button expand" style="display:none">
+    </form>
+  </div>
+</div>
+<ul id="results" class="small-block-grid-2 medium-block-grid-3 large-block-grid-3"></ul>
+
+<div id="print-modal" class="reveal-modal medium" data-reveal aria-labelledby="Print label" aria-hidden="true" role="dialog">
+  <form id="print-form" action="/print" method="post">
+    <div class="row">
+      <div class="medium-2 columns">
+        <div class="switch tiny radius">
+          <input id="edit-switch" type="checkbox">
+          <label for="edit-switch"></label>
+        </div> 
+      </div>
+      <div class="medium-8 columns">
+        <input id="description" type="text" name="description" readonly="true" placeholder="Navn">
+      </div>
+      <div class="medium-2 columns"></div>
+    </div>
+    <div class="row">
+      <div class="large-4 columns">
+        <div class="row collapse prefix-radius">
+          <div class="small-4 columns">
+            <span class="prefix">Nr.</span>
+          </div>
+          <div class="small-8 columns">
+            <input id="item-number" type="text" name="item_number" readonly="true" placeholder="Varenummer">
+          </div>
+        </div>
+      </div>
+      <div class="large-8 columns">
+        <div class="row collapse prefix-radius">
+          <div class="small-4 columns">
+            <span class="prefix">Stregkode</span>
+          </div>
+          <div class="small-8 columns">
+            <input id="barcode-number" type="text" name="barcode_number" readonly="false" placeholder="Stregkode">
+          </div>
+        </div>
+      </div>
+      <div class="large-4 columns">
+        <div class="row collapse prefix-radius">
+          <div class="small-4 columns">
+            <span class="prefix">Pris</span>
+          </div>
+          <div class="small-8 columns">
+            <input id="price" type="text" name="price" readonly="true" placeholder="Pris">
+          </div>
+        </div>
+      </div>
+      <div class="large-8 columns">
+        <img id="barcode">
+      </div>
+    </div>
+    <div class="row">
+      <div class="large-4 columns">
+        <div class="row collapse prefix-radius">
+          <div class="small-4 columns">
+            <span class="prefix">Variant</span>
+          </div>
+          <div class="small-8 columns">
+            <input id="variant" type="text" name="variant" readonly="true">
+          </div>
+        </div>
+      </div>
+      <div class="large-8 columns"></div>
+    </div>
+    <div class="row">
+      <div class="large-4 columns">
+        <div class="row collapse prefix-radius">
+          <div class="small-4 columns">
+            <span class="prefix">Antal</span>
+          </div>
+          <div class="small-8 columns">
+            <input id="antal" type="number" name="antal" min="1" max="100">
+          </div>
+        </div>
+      </div>
+      <div class="large-8 columns"></div>
+    </div>
+    <div class="row">
+      <div class="small-12 columns">
+        <input type="submit" value="Print label" class="button expand">
+      </div>
+    </div>
+  </form>
+
+  <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+</div>
+
