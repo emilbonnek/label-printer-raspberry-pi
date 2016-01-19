@@ -77,7 +77,7 @@ post '/search' do
 end
 post '/print' do
   puts params
-  important_params = [:item_number, :description, :variant, :barcode_number]
+  important_params = [:item_number, :description, :variant, :barcode_number, :antal, :price]
   missing_params = []
   if important_params.all? {|imp_param| params.key? imp_param} 
     File.open('log.txt', 'a') do |f|
