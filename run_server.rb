@@ -5,13 +5,16 @@ require 'csv'
 require 'prawn'
 
 require 'barby'
-require 'barby/barcode/code_128'
+require 'barby/barcode/code_39'
 require 'barby/outputter/prawn_outputter'
 
+csv_text = File.read('varer.csv', encoding: "CP850")
+Csv = CSV.parse(csv_text, write_headers: true, headers:[:bar_num, :description, :item_num, :variant, :price], encoding: "CP850", col_sep: ';', :quote_char => "|")
+
 def search_textfile(item_number)
-  csv_text = File.read('tekstfil.txt', encoding: "CP850")
-  csv = CSV.parse(csv_text, write_headers: true, headers:[:bar_num, :description, :item_num, :variant, :price], encoding: "CP850", col_sep: ';', :quote_char => "|")
-  products = csv.find_all {|row| row[:item_num].include?(item_number) and row[:bar_num].start_with?("29")}
+  # csv_text = File.read('tekstfil.txt', encoding: "CP850")
+  # csv = CSV.parse(csv_text, write_headers: true, headers:[:bar_num, :description, :item_num, :variant, :price], encoding: "CP850", col_sep: ';', :quote_char => "|")
+  products = Csv.find_all {|row| row[:item_num].include?(item_number) and row[:bar_num].start_with?("29")}
   products.map! {|product| product.to_hash}
   products.each do |product|
     product[:description].chomp! " - #{product[:variant]}"
@@ -27,7 +30,7 @@ def print(params)
   label_height = 70.8661417323
   label = Prawn::Document.new({page_size: [label_width, label_height], margin: 0})
 
-  barcode = Barby::Code128B.new(params["barcode_number"])
+  barcode = Barby::Code39.new(params["barcode_number"])
   
   outputter = Barby::PrawnOutputter.new(barcode)
   outputter.height = 15
@@ -57,10 +60,7 @@ def print(params)
                                 })
 
   label.render_file "labels/#{params['item_number']}.pdf"
-  params['antal'].to_i.times do
-    system("lpr", "labels/#{params['item_number']}.pdf") or raise "kunne ikke printe"
-  end
-  # system("rm labels/#{params['item_number']}.pdf")
+  system("lpr", "labels/#{params['item_number']}.pdf","-##{params['antal']}") or raise "kunne ikke printe"
 end
 
 
@@ -73,11 +73,26 @@ post '/search' do
   search_textfile(item_number).to_json
 end
 post '/print' do
-  # item_number = params['item_number']
-  # system("ruby print_label.rb #{item_number}")
-  File.open('log.txt', 'a') do |f|
-    t = Time.now.strftime("%Y-%m-%d %H:%M")
-    f.puts(t+";PRINT;#{params['item_number']};#{params['variant']};#{params['antal']};#{params['description']};#{params['barcode_number']}")
+  puts params
+  important_params = [:item_number, :description, :variant, :barcode_number]
+  missing_params = []
+  if important_params.all? {|imp_param| params.key? imp_param} 
+    File.open('log.txt', 'a') do |f|
+      t = Time.now.strftime("%Y-%m-%d %H:%M")
+      f.puts(t+";PRINT;#{params['item_number']};#{params['variant']};#{params['antal']};#{params['description']};#{params['barcode_number']}")
+    end
+    print(params)
+  else
+    important_params.each do |imp_param|
+      #puts "#{imp_param} - #{params.has_key?(imp_param.to_s)}"
+      missing_params.push(imp_param) unless params.has_key? imp_param.to_s
+    end
+    puts missing_params
+    status 422
+    body "manglende parametre: #{missing_params}"
   end
-  print(params)
+end
+get '/print' do
+  status 405
+  body "Brug POST istedet"
 end
