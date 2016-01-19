@@ -93,7 +93,7 @@ post '/print' do
     #puts missing_params
   #  status 422
   #  body "manglende parametre: #{missing_params}"
-  end
+  #end
 end
 get '/print' do
   status 405
