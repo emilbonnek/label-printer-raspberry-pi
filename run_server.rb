@@ -79,20 +79,20 @@ post '/print' do
   puts params
   important_params = [:item_number, :description, :variant, :barcode_number, :antal]
   missing_params = []
-  if important_params.all? {|imp_param| params.has_key? imp_param} 
-    File.open('log.txt', 'a') do |f|
-      t = Time.now.strftime("%Y-%m-%d %H:%M")
-      f.puts(t+";PRINT;#{params['item_number']};#{params['variant']};#{params['antal']};#{params['description']};#{params['barcode_number']}")
-    end
-    print(params)
-  else
-    important_params.each do |imp_param|
+  #if important_params.all? {|imp_param| params.has_key? imp_param} 
+  File.open('log.txt', 'a') do |f|
+    t = Time.now.strftime("%Y-%m-%d %H:%M")
+    f.puts(t+";PRINT;#{params['item_number']};#{params['variant']};#{params['antal']};#{params['description']};#{params['barcode_number']}")
+  end
+  print(params)
+  #else
+  #  important_params.each do |imp_param|
       #puts "#{imp_param} - #{params.has_key?(imp_param.to_s)}"
-      missing_params.push(imp_param) unless params.has_key? imp_param.to_s
-    end
+  #    missing_params.push(imp_param) unless params.has_key? imp_param.to_s
+  #  end
     #puts missing_params
-    status 422
-    body "manglende parametre: #{missing_params}"
+  #  status 422
+  #  body "manglende parametre: #{missing_params}"
   end
 end
 get '/print' do
