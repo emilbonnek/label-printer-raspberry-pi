@@ -79,7 +79,7 @@ post '/print' do
   puts params
   important_params = [:item_number, :description, :variant, :barcode_number, :antal]
   missing_params = []
-  if important_params.all? {|imp_param| params.key? imp_param} 
+  if important_params.all? {|imp_param| params.has_key? imp_param} 
     File.open('log.txt', 'a') do |f|
       t = Time.now.strftime("%Y-%m-%d %H:%M")
       f.puts(t+";PRINT;#{params['item_number']};#{params['variant']};#{params['antal']};#{params['description']};#{params['barcode_number']}")
