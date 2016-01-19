@@ -8,10 +8,13 @@ require 'barby'
 require 'barby/barcode/code_128'
 require 'barby/outputter/prawn_outputter'
 
+csv_text = File.read('tekstfil.txt', encoding: "CP850")
+Csv = CSV.parse(csv_text, write_headers: true, headers:[:bar_num, :description, :item_num, :variant, :price], encoding: "CP850", col_sep: ';', :quote_char => "|")
+
 def search_textfile(item_number)
-  csv_text = File.read('tekstfil.txt', encoding: "CP850")
-  csv = CSV.parse(csv_text, write_headers: true, headers:[:bar_num, :description, :item_num, :variant, :price], encoding: "CP850", col_sep: ';', :quote_char => "|")
-  products = csv.find_all {|row| row[:item_num].include?(item_number) and row[:bar_num].start_with?("29")}
+  # csv_text = File.read('tekstfil.txt', encoding: "CP850")
+  # csv = CSV.parse(csv_text, write_headers: true, headers:[:bar_num, :description, :item_num, :variant, :price], encoding: "CP850", col_sep: ';', :quote_char => "|")
+  products = Csv.find_all {|row| row[:item_num].include?(item_number) and row[:bar_num].start_with?("29")}
   products.map! {|product| product.to_hash}
   products.each do |product|
     product[:description].chomp! " - #{product[:variant]}"
@@ -26,6 +29,8 @@ def print(params)
   label_width = 136.062992126
   label_height = 70.8661417323
   label = Prawn::Document.new({page_size: [label_width, label_height], margin: 0})
+  
+  # label.start_new_page
 
   barcode = Barby::Code128B.new(params["barcode_number"])
   
