@@ -9,7 +9,7 @@ require 'barby/barcode/code_39'
 require 'barby/outputter/prawn_outputter'
 
 csv_text = File.read('varer.csv', encoding: "CP850")
-csv_text = File.read('tekstfil.txt', encoding: "CP850")
+# csv_text = File.read('tekstfil.txt', encoding: "CP850")
 Csv = CSV.parse(csv_text, write_headers: true, headers:[:bar_num, :description, :item_num, :variant, :price], encoding: "CP850", col_sep: ';', :quote_char => "|")
 
 def search_textfile(item_number)
