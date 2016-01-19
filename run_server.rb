@@ -87,7 +87,7 @@ post '/print' do
       #puts "#{imp_param} - #{params.has_key?(imp_param.to_s)}"
       missing_params.push(imp_param) unless params.has_key? imp_param.to_s
     end
-    puts missing_params
+    #puts missing_params
     status 422
     body "manglende parametre: #{missing_params}"
   end
