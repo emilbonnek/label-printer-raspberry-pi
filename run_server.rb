@@ -36,7 +36,6 @@ def print(options = {})
                                   })
     label.render_file "labels/#{options[:item_number]}.pdf"
   system("lpr", "labels/#{options[:item_number]}.pdf","-##{options[:amount]}") or raise "kunne ikke printe"
-  system("rm labels/#{options[:item_number]}.pdf")
 end
 
 get '/print' do
