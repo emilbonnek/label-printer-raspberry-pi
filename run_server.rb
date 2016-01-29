@@ -35,9 +35,12 @@ def print(options = {})
                                   align: :center
                                   })
     label.render_file "labels/#{options[:item_number]}.pdf"
-  system("lpr", "labels/#{options[:item_number]}.pdf","-#1") or raise "kunne ikke printe"
+  system("lpr", "labels/#{options[:item_number]}.pdf","-##{params[amount]}") or raise "kunne ikke printe"
 end
 
+get '/alive' do
+   body "jeg er her"
+end
 get '/print' do
   status 405
   body "Brug POST istedet"
