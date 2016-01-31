@@ -91,7 +91,7 @@
           <div class="small-8 columns">
             <select id="barcode-type" name="barcode_type">
               <%@barcode_types.each do |barcode_type|%>
-                <%= "test" %>
+                <%= "<options value='#{barcode_type}'>#{barcode_type}</options>"%>
               <%end%>
             </select>
           </div>
