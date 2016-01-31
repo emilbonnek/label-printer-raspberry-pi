@@ -92,6 +92,7 @@
             <select id="barcode-type" name="barcode_type">
               <%@barcode_types.each do |barcode_type|%>
                 <%= "<options value='#{barcode_type}'>#{barcode_type}</options>"%>
+                <option value="mig">mig</option>
               <%end%>
             </select>
           </div>
