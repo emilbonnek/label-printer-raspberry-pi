@@ -90,6 +90,7 @@ def search_textfile(item_number)
 end
 
 get '/' do
+  @test = 4
   erb :index
 end
 post '/search' do
