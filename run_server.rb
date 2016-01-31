@@ -39,7 +39,7 @@ def print(options = {})
                                   align: :center
                                   })
     label.render_file "labels/#{options[:item_number]}.pdf"
-  system("lpr", "labels/#{options[:item_number]}.pdf","-##{params[:amount]}") or raise "kunne ikke printe"
+    system("lpr", "labels/#{options[:item_number]}.pdf","-##{params[:amount]}") or raise "kunne ikke printe"
 end
 
 get '/alive' do
