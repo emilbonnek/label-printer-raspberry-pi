@@ -7,14 +7,16 @@ require_relative 'label_machine.rb'
 
 label_machine = LabelMachine.new
 
+set :port, 80
+
 get '/print' do
   status 405
   body "Brug POST istedet"
 end
 post '/print' do
-  barcode_type = params[:barcode_type] || "code_128"
-  barcode = Barcode.get(params[:barcode_number], barcode_type)
-  label_settings = {item_number: params[:item_number], description:params[:description], variant:params[:variant] ,barcode: barcode}
+  barcode_type = params[:barcode_type]
+  barcode = Barcode.make(barcode_type, params[:barcode_number])
+  label_settings = {item_number: params[:item_number], description:params[:description], variant:params[:variant], barcode: barcode}
   label = label_machine.create(label_settings)
 
 
