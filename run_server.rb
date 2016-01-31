@@ -7,7 +7,7 @@ require_relative 'label_machine.rb'
 
 label_machine = LabelMachine.new
 
-set :port, 80
+#set :port, 80
 
 get '/print' do
   status 405
