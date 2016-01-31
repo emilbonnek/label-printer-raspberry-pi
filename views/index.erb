@@ -7,7 +7,6 @@
   </div>
 </div>
 <ul id="results" class="small-block-grid-2 medium-block-grid-3 large-block-grid-3"></ul>
-<%=@test %>
 <div id="print-modal" class="reveal-modal medium" data-reveal aria-labelledby="Print label" aria-hidden="true" role="dialog">
   <form id="print-form" action="/print" method="post">
     <div class="row">
@@ -91,8 +90,9 @@
           </div>
           <div class="small-8 columns">
             <select id="barcode-type" name="barcode_type">
-                <option value="code_128">Kode 128</option>
-                <option value="code_39">Kode 39</option>
+              <%@barcode_types.each do |barcode_type|%>
+                <%= "test" %>
+              <%end%>
             </select>
           </div>
         </div>

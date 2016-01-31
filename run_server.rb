@@ -90,7 +90,7 @@ def search_textfile(item_number)
 end
 
 get '/' do
-  @test = 4
+  @barcode_types = Barcode::Types
   erb :index
 end
 post '/search' do
