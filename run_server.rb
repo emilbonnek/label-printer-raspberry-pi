@@ -8,6 +8,8 @@ require 'barby/outputter/prawn_outputter'
 require_relative 'barcode.rb'
 require_relative 'label_machine.rb'
 
+label_machine = LabelMachine.new
+
 #set :port, 80
 
 def print(options = {})
