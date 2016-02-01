@@ -6,6 +6,7 @@ $.ajax({type: 'POST',
   dataType: 'json',
   success: function(response){
     window.products = response;
+    $("#loadproof").hide()
     
     //$.each(response, function(i, product) {
     //  window.products.push(product);
