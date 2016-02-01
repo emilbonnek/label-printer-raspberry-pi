@@ -24,7 +24,8 @@ $(document).ready(function(){
 
   $("#q").on('keyup',function(){
     if ($("#q").val().length==6){
-      doLoadQ();
+      //doLoadQ();
+      $("#search-form").trigger("submit")
     }
   });
 
