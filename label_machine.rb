@@ -13,6 +13,10 @@ class LabelMachine
     outputter.height = 15
     outputter.xdim = 0.7
 
+    until (label_width-outputter.full_width <= 40)
+      outputter.xdim += 0.1
+    end
+
     outputter.x = (label_width-outputter.full_width)/2
     outputter.y = (label_height-outputter.full_height)/4
     outputter.annotate_pdf(label)
