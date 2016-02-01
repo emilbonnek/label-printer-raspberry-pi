@@ -13,6 +13,7 @@ require 'barby/barcode/upc_supplemental'
 
 module Barcode
   TYPES = {
+    "code_128" => Barby::Code128,
     "code_128b" => Barby::Code128B,
     "bookland" => Barby::Bookland,
     "code_39" => Barby::Code39,
@@ -20,7 +21,6 @@ module Barcode
     "code_25_interleaved" => Barby::Code25Interleaved,
     "code_25_iata" => Barby::Code25IATA,
     "code_93" => Barby::Code93,
-    "code_128" => Barby::Code128,
     "code_128a" => Barby::Code128A,
     "code_128c" => Barby::Code128C,
     "gs1_128" => Barby::GS1128,
