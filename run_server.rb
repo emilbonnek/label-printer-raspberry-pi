@@ -33,7 +33,7 @@ post '/print' do
   system("rm labels/#{params[:item_number]}.pdf")
 
   barcode_type = params[:barcode_type] || "code_128"
-  barcode = Barcode.get(params[:barcode_number], barcode_type)
+  barcode = Barcode.make(params[:barcode_number], barcode_type)
   label_settings = {item_number: params[:item_number], description:params[:description], variant:params[:variant] ,barcode: barcode}
 
 
