@@ -10,7 +10,7 @@ require_relative 'label_machine.rb'
 
 label_machine = LabelMachine.new
 
-#set :port, 80
+set :port, 80
 
 get '/alive' do
    body "jeg er her"
