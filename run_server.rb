@@ -21,12 +21,10 @@ get '/print' do
   body "Brug POST istedet"
 end
 post '/print' do
-
   barcode_type = params[:barcode_type]
   barcode = Barcode.make(barcode_type, params[:barcode_number])
   label_settings = {item_number: params[:item_number], description:params[:description], variant:params[:variant], barcode: barcode}
   label = label_machine.create(label_settings)
-
 
   label.render_file "labels/#{params[:item_number]}.pdf"
   system("lpr", "labels/#{params[:item_number]}.pdf","-##{params[:amount]}") or raise "kunne ikke printe"
@@ -35,9 +33,6 @@ post '/print' do
   barcode_type = params[:barcode_type] || "code_128"
   barcode = Barcode.make(params[:barcode_number], barcode_type)
   label_settings = {item_number: params[:item_number], description:params[:description], variant:params[:variant] ,barcode: barcode}
-
-
-  print(label_settings)
   
   File.open('log.txt', 'a') do |f|
     t = Time.now.strftime("%Y-%m-%d %H:%M")
