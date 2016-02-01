@@ -77,6 +77,9 @@ $(document).ready(function(){
                                 .data("item-num", product.item_num)
                                 .data("price", product.price)
                                 .data("variant",product.variant)
+      if (product.variant != null){
+        elem.append("<span class='info label'>"+product.variant+"</span>")
+      }
       elem.append("<br>")
       elem.append("<h2>"+product.description+"</h2>")
       $("#results").append(elem)
