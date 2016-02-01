@@ -45,11 +45,18 @@ $(document).ready(function(){
   $("#print-form").on("submit", function(event){
     $.ajax({type: 'POST',
             url: '/print',
-            data: $('#print-form').serialize()
+            data: $('#print-form').serialize(),
+            sucess: function(){
+              notify("Lykkedes", "success")
+            },
+            error: function(){
+              notify("Mislykkedes", "alert")
+            }
     })
     $('#print-modal').foundation('reveal', 'close');
     $("#q").select();
     event.preventDefault()
+    notify("Opgave sendt","secondary")
   });
   
 }); 

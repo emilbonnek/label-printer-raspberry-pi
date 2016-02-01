@@ -1,3 +1,7 @@
+#q {
+  height:3.0rem;
+}
+
 #results li {
   cursor: pointer;
 }
@@ -35,3 +39,4 @@
   margin-left: auto;
   margin-right: auto;
 }
+
