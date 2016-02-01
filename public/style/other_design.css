@@ -1,7 +1,18 @@
 #q {
-  height:3.0rem;
+  height:3.4rem;
+  -webkit-appearance: none;
 }
+#q::-webkit-outer-spin-button, #q::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+} 
 
+#no-search, #no-results {
+  display:none;
+}
+#no-search p, #no-results {
+  text-align: center;
+}
 #results li {
   cursor: pointer;
 }
@@ -12,6 +23,9 @@
   text-align: center;
   font-size: 14px;
   margin-top:16px;
+}
+#results li {
+  height: 100px;
 }
 #print-modal input[type="text"][disabled]{
   background-color: #DAD8D8; 

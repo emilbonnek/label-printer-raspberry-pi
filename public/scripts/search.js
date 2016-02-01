@@ -1,26 +1,33 @@
-
-
-// Hent produkter til klient for hurtigere søgning
-$.ajax({type: 'POST',
-  url: '/products',
-  dataType: 'json',
-  success: function(response){
-    window.products = response;
-    $("#loadproof").hide()
-    notify("Klar til at søge","success")
-  }
-});
-
 $(document).ready(function(){
+
+
+
   $("#q").focus();
   esc();
+  // Hent produkter til klient for hurtigere søgning
+  $.ajax({type: 'POST',
+    url: '/products',
+    dataType: 'json',
+    success: function(response){
+      window.products = response;
+      $("#loadproof").hide()
+      $("#no-search").slideDown()
+      notify("Klar til at søge","success'")
+    }
+  });
 
   $("#q").on('keyup',function(){
-    if ($("#q").val().length>=5){
+    value = $("#q").val()
+    if (value.length==0) {
+
+    } else if (value.length<5){
+      $("#results").empty()
+      $("#no-results").hide()
+      $("#no-search").show()
+    } else {
+      $("#no-search").hide()
       $("#search-form").trigger("submit")
-    } else if($("#q").val().length<5){
-      $("results").empty()
-    }
+    };
   });
 
   $("#search-form").on("submit", function(event){
@@ -65,12 +72,11 @@ $(document).ready(function(){
     $.each(matching_elems, function(i, product){
       //console.log(product)
       elem = $("<li>").addClass("panel")
-                                .height(100)
-                                .data("bar-num", product.bar_num)
-                                .data("description", product.description)
-                                .data("item-num", product.item_num)
-                                .data("price", product.price)
-                                .data("variant",product.variant)
+        .data("bar-num", product.bar_num)
+        .data("description", product.description)
+        .data("item-num", product.item_num)
+        .data("price", product.price)
+        .data("variant",product.variant)
       if (product.variant != null){
         elem.append("<span class='info label'>"+product.variant+"</span>")
       }
@@ -78,6 +84,11 @@ $(document).ready(function(){
       elem.append("<h2>"+product.description+"</h2>")
       $("#results").append(elem)
     })
+    if (matching_elems.length == 0) {
+      $("#no-results").slideDown()
+    } else {
+      $("#no-results").hide()
+    }
   }
 });
 

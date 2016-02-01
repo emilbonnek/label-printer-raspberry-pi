@@ -43,6 +43,7 @@ $(document).ready(function(){
   });
   
   $("#print-form").on("submit", function(event){
+    event.preventDefault()
     $.ajax({type: 'POST',
             url: '/print',
             data: $('#print-form').serialize(),
@@ -55,7 +56,6 @@ $(document).ready(function(){
     })
     $('#print-modal').foundation('reveal', 'close');
     $("#q").select();
-    event.preventDefault()
     notify("Opgave sendt","secondary")
   });
   
