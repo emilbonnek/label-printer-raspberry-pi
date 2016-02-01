@@ -13,7 +13,8 @@ label_machine = LabelMachine.new
 set :port, 80
 
 get '/alive' do
-   body "jeg er her"
+
+  body "jeg er her"
 end
 
 get '/print' do
@@ -40,6 +41,7 @@ post '/print' do
   end
 end
 
+
 # --
 
 csv_text = File.read('varer.csv', encoding: "CP850")
@@ -60,6 +62,18 @@ get '/' do
   @barcode_types = Barcode::TYPES.keys
   erb :index
 end
+post '/products' do
+  content_type :json
+  products = Csv.find_all {|row| row[:bar_num].start_with?("29")}
+  products.map! {|product| product.to_hash}
+  products.each do |product|
+    product[:description].chomp! " - #{product[:variant]}"
+    product[:description].chomp! product[:variant]
+    product[:description] = product[:description].split.join(" ")
+  end
+  return products.to_json
+end
+
 post '/search' do
   item_number = params['item_number']
   content_type :json
