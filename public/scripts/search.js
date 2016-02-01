@@ -23,7 +23,7 @@ $(document).ready(function(){
   });*/
 
   $("#q").on('keyup',function(){
-    if ($("#q").val().length==6){
+    if ($("#q").val().length>=5){
       //doLoadQ();
       $("#search-form").trigger("submit")
     }
@@ -114,6 +114,7 @@ function esc(){
 
 
 /*vent med at hente data til der er skrevet lidt i søgefeltet*/
+/*
 $.fn.extend({
         donetyping: function(callback,timeout){
             timeout = timeout || 1e3; // 1 second default timeout  (1eo3)
@@ -136,4 +137,5 @@ $.fn.extend({
             });
         }
     });
+*/
 /*end -vent med at hente data til der er skrevet lidt i søgefeltet*/
