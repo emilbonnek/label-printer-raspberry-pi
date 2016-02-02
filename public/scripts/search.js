@@ -93,18 +93,40 @@ $(document).ready(function(){
 });
 
 
-function search(term) {
+function search(q) {
   var results = [];
   var index;
   var product;
+  terms = q.toUpperCase().split(" ");
+  //term = term.toUpperCase();
 
-  term = term.toUpperCase();
-  for (index = 0; index < window.products.length; ++index) {
-    product = window.products[index];
-    if (product && product.item_num && product.item_num.toUpperCase().indexOf(term) !== -1) {
+  window.products.forEach(function(product){
+    relevant = true
+    terms.forEach(function(term){
+      if (product && product.item_num.toUpperCase().indexOf(term)!==-1 || product.description.toUpperCase().indexOf(term)!==-1) {
+
+      } else {
+        relevant = false
+      }
+    })
+    if (relevant){
       results.push(product);
     }
-  }
+  })
+
+  return results
+
+  /*
+  terms.forEach(function(term){
+    for (index = 0; index < window.products.length; ++index) {
+      product = window.products[index];
+      if (product && (product.item_num.toUpperCase().indexOf(term) !== -1 || product.description.toUpperCase().indexOf(term) !== -1)) {
+        results.push(product);
+      }
+    }
+  })
+*/
+  
 
   return results;
 }
