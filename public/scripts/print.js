@@ -56,6 +56,7 @@ $(document).ready(function(){
     })
     $('#print-modal').foundation('reveal', 'close');
     $("#q").select();
+    window.scrollTo(0,0)
     notify("Opgave sendt","secondary")
   });
   
