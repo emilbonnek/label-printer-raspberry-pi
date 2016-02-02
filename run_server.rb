@@ -13,7 +13,7 @@ label_machine = LabelMachine.new
 set :port, 80
 
 get '/alive' do
-
+  status 200
   body "jeg er her"
 end
 
