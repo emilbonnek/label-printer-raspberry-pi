@@ -4,5 +4,5 @@ function notify(message, type){
   $(document).foundation('alert', 'reflow');
   window.setTimeout( function(){
     $(".alert-box a.close").trigger("click.fndtn.alert")
-  },1000)
+  },2500)
 }
