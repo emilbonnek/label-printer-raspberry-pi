@@ -20,7 +20,7 @@ $(document).ready(function(){
     value = $("#q").val()
     if (value.length==0) {
 
-    } else if (value.length<5){
+    } else if (value.length<=1){
       $("#results").empty()
       $("#no-results").hide()
       $("#no-search").show()
