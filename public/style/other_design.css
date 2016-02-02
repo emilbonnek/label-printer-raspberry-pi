@@ -1,12 +1,6 @@
 #q {
   height:3.4rem;
-  -webkit-appearance: none;
 }
-#q::-webkit-outer-spin-button, #q::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-} 
-
 #no-search, #no-results {
   display:none;
 }
