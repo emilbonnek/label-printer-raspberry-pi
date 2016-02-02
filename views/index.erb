@@ -1,9 +1,24 @@
 <div class="row">
-  <div class="small-centered medium-4 column">
+  <div class="small-6 medium-4 medium-offset-4 column">
     <form id="search-form" action="/search" method="post">
-      <input type="text" name="item_number" placeholder="Søg" id="q">
+      <input id="q" type="number" size="6" name="item_number" min="1" max="999999" placeholder="Søg">
       <input type="submit" class="button expand" style="display:none">
     </form>
+  </div>
+  <div id="notification_space" class="small-6 medium-4 column">
+  </div>
+</div>
+<div class="row">
+  <div class="small-centered medium-4 column" style="text-align:center;">
+    <img src="images/ajax-loader.gif" id="loadproof"></img>
+  </div>
+</div>
+<div class="row">
+  <div id="no-search" class="small-12 column panel callout">
+    <p>Søg efter et varenummer</p>
+  </div>
+  <div id="no-results" class="small-12 column panel callout">
+    <p>Ingen varer matcher din søgning</p>
   </div>
 </div>
 <ul id="results" class="small-block-grid-2 medium-block-grid-3 large-block-grid-3"></ul>

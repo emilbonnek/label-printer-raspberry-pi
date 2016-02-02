@@ -1,19 +1,41 @@
 $(document).ready(function(){
+
+
+
   $("#q").focus();
   esc();
-  /*$("#search-form").on("keyup", function(){
-    $("#results").empty();
-  });*/
-
-  $("#q").on('keyup',function(){
-    if ($("#q").val().length==6){
-      doLoadQ();
+  // Hent produkter til klient for hurtigere søgning
+  $.ajax({type: 'POST',
+    url: '/products',
+    dataType: 'json',
+    success: function(response){
+      window.products = response;
+      $("#loadproof").hide()
+      $("#no-search").slideDown()
+      notify("Klar til at søge","success'")
     }
   });
 
+  $("#q").on('keyup',function(){
+    value = $("#q").val()
+    if (value.length==0) {
+
+    } else if (value.length<5){
+      $("#results").empty()
+      $("#no-results").hide()
+      $("#no-search").show()
+    } else {
+      $("#no-search").hide()
+      $("#search-form").trigger("submit")
+    };
+  });
+
   $("#search-form").on("submit", function(event){
-    doLoadQ();
     event.preventDefault()
+    res = search($(this).find('input[name="item_number"]').val())
+    //doLoadQ();
+    doLoadQ2(res);
+    
   });
 
   function doLoadQ(){
@@ -44,9 +66,48 @@ $(document).ready(function(){
             }
     });
   }
+  function doLoadQ2(matching_elems){
+    $("#results").empty()
+    matching_elems
+    $.each(matching_elems, function(i, product){
+      //console.log(product)
+      elem = $("<li>").addClass("panel")
+        .data("bar-num", product.bar_num)
+        .data("description", product.description)
+        .data("item-num", product.item_num)
+        .data("price", product.price)
+        .data("variant",product.variant)
+      if (product.variant != null){
+        elem.append("<span class='info label'>"+product.variant+"</span>")
+      }
+      elem.append("<br>")
+      elem.append("<h2>"+product.description+"</h2>")
+      $("#results").append(elem)
+    })
+    if (matching_elems.length == 0) {
+      $("#no-results").slideDown()
+    } else {
+      $("#no-results").hide()
+    }
+  }
 });
 
 
+function search(term) {
+  var results = [];
+  var index;
+  var product;
+
+  term = term.toUpperCase();
+  for (index = 0; index < window.products.length; ++index) {
+    product = window.products[index];
+    if (product && product.item_num && product.item_num.toUpperCase().indexOf(term) !== -1) {
+      results.push(product);
+    }
+  }
+
+  return results;
+}
 
 function esc(){
   $("body").keyup(function(e){
@@ -56,8 +117,8 @@ function esc(){
   });
 }
 
-
 /*vent med at hente data til der er skrevet lidt i søgefeltet*/
+/*
 $.fn.extend({
         donetyping: function(callback,timeout){
             timeout = timeout || 1e3; // 1 second default timeout  (1eo3)
@@ -80,4 +141,5 @@ $.fn.extend({
             });
         }
     });
+*/
 /*end -vent med at hente data til der er skrevet lidt i søgefeltet*/
