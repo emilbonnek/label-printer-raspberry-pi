@@ -1,7 +1,5 @@
 $(document).ready(function(){
 
-
-
   $("#q").focus();
   esc();
   // Hent produkter til klient for hurtigere søgning
@@ -18,13 +16,14 @@ $(document).ready(function(){
 
   $("#q").on('keyup',function(){
     value = $("#q").val()
-    if (value.length==0) {
-
-    } else if (value.length<=1){
+    if (value.length<2){
       $("#results").empty()
       $("#no-results").hide()
       $("#no-search").show()
-    } else {
+    } else if (value.length>=3 && !(/^\d+$/.test(value))) {
+      $("#no-search").hide()
+      $("#search-form").trigger("submit")
+    } else if (value.length>=4 && (/^\d+$/.test(value))){
       $("#no-search").hide()
       $("#search-form").trigger("submit")
     };
@@ -38,34 +37,6 @@ $(document).ready(function(){
     
   });
 
-  function doLoadQ(){
-    $.ajax({type: 'POST',
-            url: '/search',
-            dataType: 'json',
-            data: $('#search-form').serialize(),
-            success: function(response){
-              $("#results").empty();
-              $.each(response, function(i, product) {
-                elem = $("<li>").addClass("panel")
-                                .height(100)
-                                .data("bar-num", product.bar_num)
-                                .data("description", product.description)
-                                .data("item-num", product.item_num)
-                                .data("price", product.price)
-                                .data("variant",product.variant)
-                if (product.variant != null){
-                  elem.append("<span class='info label'>"+product.variant+"</span>")
-                }
-                elem.append("<br>")
-                elem.append("<h2>"+product.description+"</h2>")
-                // elem = "<li class='panel text-center' data-bar-num='"+product.bar_num+"' data-description='"+product.description+"' data-item-num='"+product.item_num+"' data-price='"+product.price+"' data-variant='"+product.variant+"'>"+product.description+"</li>"
-                // elem = "<li><form class='print-form' action='/print' method='post'><input type='hidden' name='item_number' value='"+product.item_num+"'><input type='submit' class='button expand' value='"+product.description+"'></form></li>"
-                // :bar_num, :description, :item_num, :variant, :price
-                $("#results").append(elem)
-              });
-            }
-    });
-  }
   function doLoadQ2(matching_elems){
     $("#results").empty()
     matching_elems
@@ -97,8 +68,15 @@ function search(q) {
   var results = [];
   var index;
   var product;
+
+  if (q.length == 0){
+    return results
+  } else if (/^\d+$/.test(q)){
+
+  }
+
+
   terms = q.toUpperCase().split(" ");
-  //term = term.toUpperCase();
 
   window.products.forEach(function(product){
     relevant = true
@@ -165,3 +143,34 @@ $.fn.extend({
     });
 */
 /*end -vent med at hente data til der er skrevet lidt i søgefeltet*/
+
+/*
+function doLoadQ(){
+  $.ajax({type: 'POST',
+        url: '/search',
+        dataType: 'json',
+        data: $('#search-form').serialize(),
+        success: function(response){
+          $("#results").empty();
+          $.each(response, function(i, product) {
+            elem = $("<li>").addClass("panel")
+                            .height(100)
+                            .data("bar-num", product.bar_num)
+                            .data("description", product.description)
+                            .data("item-num", product.item_num)
+                            .data("price", product.price)
+                            .data("variant",product.variant)
+            if (product.variant != null){
+              elem.append("<span class='info label'>"+product.variant+"</span>")
+            }
+            elem.append("<br>")
+            elem.append("<h2>"+product.description+"</h2>")
+            // elem = "<li class='panel text-center' data-bar-num='"+product.bar_num+"' data-description='"+product.description+"' data-item-num='"+product.item_num+"' data-price='"+product.price+"' data-variant='"+product.variant+"'>"+product.description+"</li>"
+            // elem = "<li><form class='print-form' action='/print' method='post'><input type='hidden' name='item_number' value='"+product.item_num+"'><input type='submit' class='button expand' value='"+product.description+"'></form></li>"
+            // :bar_num, :description, :item_num, :variant, :price
+            $("#results").append(elem)
+          });
+        }
+});
+}
+*/
