@@ -33,6 +33,8 @@ $(document).ready(function(){
     $('#variant').val(product.data('variant'))
     $('#antal').val(1)
 
+    $("#image").attr("src", "http://10.45.0.19/1500/arkiv/"+product.data('item-num')+".jpg")
+
     $('#print-modal').foundation('reveal', 'open');
     setTimeout(function(){$('#antal').select();},500);
   });
