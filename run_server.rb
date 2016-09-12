@@ -32,8 +32,7 @@ post '/new_datafile' do
 
   File.open('varer.csv', 'wb') {|f| f.write tmpfile.read }
 
-  "Upload check"
-
+  body "Filen blev uploadet"
 end
 
 post '/print' do
