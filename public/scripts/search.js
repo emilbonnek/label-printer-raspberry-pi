@@ -63,6 +63,8 @@ $(document).ready(function(){
 	}
 
 	online();
+
+	keyType();
 });
 
 
@@ -145,6 +147,20 @@ function doOnline(){
 				}
 		});
 	online();
+}
+
+function keyType(){
+	$("body").keyup(function(e){
+		if($(".reveal-modal-bg").is(':visible')){
+
+		}else{
+			if($("#q").is(':focus')){
+
+			}else{
+				$("#q").focus().val($("#q").val()+event.key);
+			}
+		}
+	});
 }
 
 /*vent med at hente data til der er skrevet lidt i søgefeltet*/
