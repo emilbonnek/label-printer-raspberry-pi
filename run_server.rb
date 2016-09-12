@@ -21,6 +21,21 @@ get '/print' do
   status 405
   body "Brug POST istedet"
 end
+
+post '/new_datafile' do
+  unless params[:file] &&
+         (tmpfile = params[:file][:tempfile]) &&
+         (name = params[:file][:filename])
+    "Fejl!"
+  end
+  STDERR.puts "Uploading file, original name #{name.inspect}"
+
+  File.open('varer.csv', 'wb') {|f| f.write tmpfile.read }
+
+  "Upload check"
+
+end
+
 post '/print' do
   barcode_type = params[:barcode_type]
   barcode = Barcode.make(barcode_type, params[:barcode_number])

@@ -1,4 +1,4 @@
- <div class="row">
+<div class="row">
   <div class="small-6 medium-4 medium-offset-4 column">
     <form id="search-form" action="/search" method="post">
       <input id="q" type="text" size="6" name="item_number" min="1" max="999999" placeholder="Søg">
@@ -127,3 +127,33 @@
   <a class="close-reveal-modal" aria-label="Close">&#215;</a>
 </div>
 
+
+
+<div id="settings-modal" class="reveal-modal medium" data-reveal aria-labelledby="Indstillinger" aria-hidden="true" role="dialog">
+  <h2 id="modalTitle">Indstillinger</h2>
+
+  <ul class="tabs" data-tab>
+    <li class="tab-title active"><a href="#panel11">Data</a></li>
+    <li class="tab-title"><a href="#panel21">Andet</a></li>
+  </ul>
+  <div class="tabs-content panel">
+    <div class="content active" id="panel11">
+      <form action="/new_datafile" method="post" enctype="multipart/form-data">
+        <div class="row">
+          <div class="medium-4 columns">
+            <input name="file" type="file" class="file-input">
+          </div>
+          <div class="medium-4 columns">
+            <input type="submit" class="button small radius" value="Upload" />
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="content" id="panel21">
+      <p>Andre indstillinger</p>
+    </div>
+  </div>
+
+
+  <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+</div>

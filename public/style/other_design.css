@@ -24,7 +24,7 @@
 #print-modal input[type="text"][disabled]{
 	background-color: #DAD8D8; 
 }
-#print-modal #description {
+#print-modal #description, #settings-modal #modalTitle {
 	background-color: #ffffff; 
 
 	font-family: Helvetica;
@@ -62,4 +62,26 @@
 }
 .netOffline{
 	background-color: #DDDDDD;
+}
+
+.file-upload {
+  position: relative;
+  overflow: hidden;
+  margin: 10px; }
+
+.file-upload input.file-input {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0;
+  filter: alpha(opacity=0); }
+
+
+
+*:focus {
+    outline: none;
 }
