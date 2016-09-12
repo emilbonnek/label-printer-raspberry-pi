@@ -67,6 +67,8 @@ Csv = CSV.read('varer.csv', write_headers: true, headers:headers, encoding: "CP8
   Csv.delete(irelevant)
 end
 
+
+
 get '/' do
   @barcode_types = Barcode::TYPES.keys
   erb :index
@@ -81,10 +83,4 @@ post '/products' do
     product[:description] = product[:description].split.join(" ")
   end
   return products.to_json
-end
-
-post '/search' do
-  item_number = params['item_number']
-  content_type :json
-  search_textfile(item_number).to_json
 end
