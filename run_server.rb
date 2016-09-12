@@ -57,9 +57,9 @@ end
 
 # --
 # ALLE kollonner i datafilen skal være i listen herunder i korrekt rækkefølge.
-headers  = [:bar_num, :description, :item_num, :variant, :price, :x, :x2, :x3, :x4, :x5, :x6, :x7]
+headers  = [:bar_num, :barcode_description, :item_num, :variant, :price, :description, :x2, :x3, :x4, :x5, :x6, :x7]
 # De kollonner der skal bruges skal OGSÅ fremgå i listen herunder.
-relevant = [:bar_num, :description, :item_num, :variant, :price]
+relevant = [:bar_num, :item_num, :variant, :price, :description]
 Csv = CSV.read('varer.csv', write_headers: true, headers:headers, encoding: "CP850", col_sep: ';', quote_char: "@")
 
 # Fjern kolonner der ikke er i brug
