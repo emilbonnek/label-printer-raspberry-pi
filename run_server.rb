@@ -43,9 +43,16 @@ end
 
 
 # --
+# ALLE kollonner i datafilen skal være i listen herunder i korrekt rækkefølge.
+headers  = [:bar_num, :description, :item_num, :variant, :price, :x, :x2, :x3, :x4, :x5, :x6, :x7]
+# De kollonner der skal bruges skal OGSÅ fremgå i listen herunder.
+relevant = [:bar_num, :description, :item_num, :variant, :price]
+Csv = CSV.read('varer.csv', write_headers: true, headers:headers, encoding: "CP850", col_sep: ';', quote_char: "@")
 
-csv_text = File.read('varer.csv', encoding: "CP850")
-Csv = CSV.parse(csv_text, write_headers: true, headers:[:bar_num, :description, :item_num, :variant, :price], encoding: "CP850", col_sep: ';', :quote_char => "|")
+# Fjern kolonner der ikke er i brug
+(headers - relevant).each do |irelevant|
+  Csv.delete(irelevant)
+end
 
 def search_textfile(item_number)
   products = Csv.find_all {|row| row[:item_num].include?(item_number) and row[:bar_num].start_with?("29")}
