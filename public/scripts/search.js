@@ -65,6 +65,8 @@ $(document).ready(function(){
 	online();
 
 	keyType();
+
+	deleLeftOversNotify();
 });
 
 
@@ -161,6 +163,17 @@ function keyType(){
 			}
 		}
 	});
+}
+
+function deleLeftOversNotify(){
+	setTimeout(function(){doDeleLeftOversNotify()}, 60000);
+}
+
+function doDeleLeftOversNotify(){
+	$("#notification_space .remove").remove();
+
+	$("#notification_space").find(".alert-close").addClass('remove');
+	deleLeftOversNotify()
 }
 
 /*vent med at hente data til der er skrevet lidt i søgefeltet*/
