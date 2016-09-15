@@ -60,6 +60,7 @@ function doLoadQ(matching_elems){
 			.data("item-num", product.item_num)
 			.data("price", product.price)
 			.data("variant",product.variant)
+			.data("l_num",product.l_num)
 		if (product.variant != null){
 			elem.append("<span class='info label'>"+product.variant+"</span>")
 		}

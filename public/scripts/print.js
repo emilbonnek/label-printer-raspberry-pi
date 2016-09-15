@@ -31,6 +31,7 @@ $(document).ready(function(){
     $('#barcode').JsBarcode(String(product.data('bar-num')),{format:"CODE128", width:3, height: 45});
     $('#price').val(product.data('price'))
     $('#variant').val(product.data('variant'))
+    $('#lnr').val(product.data('l_num'))
     $('#antal').val(1)
 
     $("#image").attr("src", "http://10.45.0.19/1500/arkiv/"+product.data('item-num')+".jpg")
