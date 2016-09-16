@@ -51,8 +51,6 @@ $(document).ready(function(){
       $("#variant-prompt .info #item-num").text(product.data('item-num'))
       $("#variant-prompt .info #price").text(product.data('price'))
 
-      console.log(product.data("bar-num"));
-
       $("#variants").empty()
       for (var i = 0; i < product.data("variant").length; i++) {
         elem = $("<li>")
@@ -68,9 +66,7 @@ $(document).ready(function(){
         $("#variants").append(elem)
 
       };
-
       $("#variant-prompt").slideDown()
-
     }
   });
 
