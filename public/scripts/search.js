@@ -53,20 +53,22 @@ function doLoadQ(matching_elems){
 	$("#results").empty()
 	matching_elems
 	$.each(matching_elems, function(i, product){
-		//console.log(product)
-		elem = $("<li>").addClass("panel")
-			.data("bar-num", product.bar_num)
+		for (i = 0; i < product.variant.length; i++) { 
+		  elem = $("<li>").addClass("panel")
+			.data("bar-num", product.bar_num[i])
 			.data("description", product.description)
 			.data("item-num", product.item_num)
 			.data("price", product.price)
-			.data("variant",product.variant)
+			.data("variant",product.variant[i])
 			.data("l_num",product.l_num)
-		if (product.variant != null){
-			elem.append("<span class='info label'>"+product.variant+"</span>")
+		if (product.variant[i] != null){
+			elem.append("<span class='info label'>"+product.variant[i]+"</span>")
 		}
 		elem.append("<br>")
 		elem.append("<h2>"+product.description+"</h2>")
 		$("#results").append(elem)
+		}
+		
 	})
 	$("#results").slideDown();
 	if (matching_elems.length == 0) {
