@@ -18,7 +18,8 @@ $(document).ready(function(){
 		$("#loadproof").show();
 		value = $("#q").val()
 		if (value.length<2){
-			$("#results").empty()
+			//$("#results").empty()
+			$('li',"#results").remove(); 
 			$("#no-results").hide()
 			$("#no-search").slideDown()
 		} else if (value.length>=3 && !(/^\d+$/.test(value))) {
@@ -50,23 +51,36 @@ $(document).ready(function(){
 
 function doLoadQ(matching_elems){
 	$("#results").hide();
-	$("#results").empty()
+	$('li',"#results").remove();    
 	matching_elems
 	$.each(matching_elems, function(i, product){
-		for (i = 0; i < product.variant.length; i++) { 
+		if (product.variant.length == 1){
+			console.log(product.variant[0])
 		  elem = $("<li>").addClass("panel")
-			.data("bar-num", product.bar_num[i])
+			.data("bar-num", product.bar_num[0])
 			.data("description", product.description)
 			.data("item-num", product.item_num)
 			.data("price", product.price)
-			.data("variant",product.variant[i])
-			.data("l_num",product.l_num)
-		if (product.variant[i] != null){
-			elem.append("<span class='info label'>"+product.variant[i]+"</span>")
-		}
-		elem.append("<br>")
-		elem.append("<h2>"+product.description+"</h2>")
-		$("#results").append(elem)
+			.data("variant",product.variant[0])
+			.data("l-num",product.l_num)
+			if (product.variant[0] != null){
+				elem.append("<span class='info label'>"+product.variant+"</span>")
+			}
+			elem.append("<br>")
+			elem.append("<h2>"+product.description+"</h2>")
+			$("#results").append(elem)
+		} else {
+			elem = $("<li>").addClass("panel")
+			.data("bar-num", product.bar_num)
+			.data("description", product.description)
+			.data("item-num", product.item_num)
+			.data("price", product.price)
+			.data("variant",product.variant)
+			.data("l-num",product.l_num)
+
+			elem.append("<span class='alert radius label'>HAR VARIANTER</span>")
+			elem.append("<h2>"+product.description+"</h2>")
+			$("#results").append(elem)
 		}
 		
 	})
@@ -91,7 +105,7 @@ function search(q) {
 
 
 	terms = q.toUpperCase().split(" ");
-	$("#results").empty();
+	$('li',"#results").remove();  
 
 	window.products.forEach(function(product){
 		relevant = true

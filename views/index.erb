@@ -21,7 +21,37 @@
     <p>Ingen varer matcher din søgning</p>
   </div>
 </div>
-<ul id="results" class="small-block-grid-2 medium-block-grid-3 large-block-grid-3"></ul>
+
+<ul id="results" class="small-block-grid-2 medium-block-grid-3 large-block-grid-3">
+  <div id="variant-prompt" class="small-12 column panel">
+      <div class="row">
+        <div class="show-for-medium-up medium-3 columns">
+          <img src="http://placehold.it/100x100">
+        </div>
+        <div class="small-12 medium-9 columns info">
+          <h2 id="description">Produkt 1</h2>
+          <p><b>Vare nr:</b> <span id="item-num">505050</span></p>
+          <p><b>Leverandør vare nr:</b> <span id="l-num"></span></p>
+          <p><b>Pris:</b> <span id="price">1699</span></p>
+          <a href="#" class="show-for-small-only">Vis billede</a>
+        </div>
+      </div>
+      <hr >
+      <ul id="variants" class="small-block-grid-2 medium-block-grid-4 large-block-grid-5">
+        <li><a href="#" class="button large expand">Grøn</a></li>
+        <li><a href="#" class="button large expand">Blå</a></li>
+        <li><a href="#" class="button large expand">Mørkelilla</a></li>
+        <li><a href="#" class="button large expand">Lyserød</a></li>
+        <li><a href="#" class="button large expand">Gennemsigtig</a></li>
+        <li><a href="#" class="button large expand">Gul</a></li>
+        <li><a href="#" class="button large expand">Sort</a></li>
+        <li><a href="#" class="button large expand">Grim</a></li>
+        <li><a href="#" class="button large expand">Stribet</a></li>
+        <li><a href="#" class="button large expand">Hipster hvid</a></li>
+      </ul>
+  </div>
+</ul>
+
 <div id="print-modal" class="reveal-modal medium" data-reveal aria-labelledby="Print label" aria-hidden="true" role="dialog">
   <form id="print-form" action="/print" method="post">
     <div class="row">

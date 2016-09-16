@@ -18,9 +18,29 @@
 	font-size: 14px;
 	margin-top:16px;
 }
+#
 #results li {
 	height: 100px;
 }
+#variant-prompt {
+  display: none;
+}
+#variant-prompt .info p {
+  margin: 0;
+}
+#variant-prompt hr {
+  margin-top: 12px;
+  margin-bottom: 5px;
+}
+#variant-prompt #variants li {
+  padding: 10px;
+}
+#variant-prompt #variants li a {
+  text-align: center;
+  margin:0;
+}
+
+
 #print-modal input[type="text"][disabled]{
 	background-color: #DAD8D8; 
 }
