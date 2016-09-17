@@ -18,7 +18,7 @@ $(document).ready(function(){
 		$("#loadproof").show();
 		value = $("#q").val()
 		if (value.length<2){
-			//$("#results").empty()
+			$("#variant-prompt").hide()
 			$('li',"#results").remove(); 
 			$("#no-results").hide()
 			$("#no-search").slideDown()
@@ -51,11 +51,11 @@ $(document).ready(function(){
 
 function doLoadQ(matching_elems){
 	$("#results").hide();
-	$('li',"#results").remove();    
+	$('li',"#results").remove();
+	$("#variant-prompt").hide()
 	matching_elems
 	$.each(matching_elems, function(i, product){
 		if (product.variant.length == 1){
-			console.log(product.variant[0])
 		  elem = $("<li>").addClass("panel")
 			.data("bar-num", product.bar_num[0])
 			.data("description", product.description)
@@ -68,6 +68,7 @@ function doLoadQ(matching_elems){
 			}
 			elem.append("<br>")
 			elem.append("<h2>"+product.description+"</h2>")
+			elem.append("<br>")
 			$("#results").append(elem)
 		} else {
 			elem = $("<li>").addClass("panel")
@@ -77,9 +78,11 @@ function doLoadQ(matching_elems){
 			.data("price", product.price)
 			.data("variant",product.variant)
 			.data("l-num",product.l_num)
+			.data("open", false)
 
-			elem.append("<span class='alert radius label'>HAR VARIANTER</span>")
+			elem.append("<br>")
 			elem.append("<h2>"+product.description+"</h2>")
+			elem.append("<center><img id='arrow' src='images/green_triangle.png' height='19' width='19'></center>")
 			$("#results").append(elem)
 		}
 		
@@ -105,6 +108,7 @@ function search(q) {
 
 
 	terms = q.toUpperCase().split(" ");
+	$("#variant-prompt").hide()
 	$('li',"#results").remove();  
 
 	window.products.forEach(function(product){
