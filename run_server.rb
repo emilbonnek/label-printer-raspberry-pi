@@ -89,6 +89,7 @@ new_products = products.map do |item_num, variants|
   new_product = Hash.new
   new_product[:item_num] = item_num
   new_product[:description] = variants[0][:description]
+  new_product[:l_num] = variants[0][:l_num]
   new_product[:bar_num] = variants.map{|variant| variant[:bar_num]}
   new_product[:variant] = variants.map{|variant| variant[:variant]}
   new_product[:price] = variants[0][:price]

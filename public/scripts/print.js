@@ -53,6 +53,8 @@ function variantPrompt(product){
   $("#variant-prompt .info #description").text(product.data('description'))
   $("#variant-prompt .info #item-num").text(product.data('item-num'))
   $("#variant-prompt .info #price").text(product.data('price'))
+  $("#variant-prompt .info #l-num").text(product.data('l-num'))
+
 
   //Skriv de rigtige varianter ind
   $("#variant-prompt #variants").empty()

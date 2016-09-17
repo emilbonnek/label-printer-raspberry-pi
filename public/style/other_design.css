@@ -26,6 +26,10 @@
 #variant-prompt {
   display: none;
 }
+#variant-prompt #product-image{
+  width: 140px;
+  height: 140px;
+}
 #variant-prompt .info h2 {
   font-family: Helvetica;
   font-weight: 200;
