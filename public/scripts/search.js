@@ -56,7 +56,7 @@ function doLoadQ(matching_elems){
 	matching_elems
 	$.each(matching_elems, function(i, product){
 		if (product.variant.length == 1){
-		  elem = $("<li>").addClass("panel")
+			elem = $("<li>").addClass("panel")
 			.data("bar-num", product.bar_num[0])
 			.data("description", product.description)
 			.data("item-num", product.item_num)
@@ -109,7 +109,7 @@ function search(q) {
 
 	terms = q.toUpperCase().split(" ");
 	$("#variant-prompt").hide()
-	$('li',"#results").remove();  
+	$('li',"#results").remove();
 
 	window.products.forEach(function(product){
 		relevant = true
@@ -163,18 +163,18 @@ function doOnline(){
 				url: "http://192.168.1.2/alive",
 				timeout: "2000",
 				success: function(){
-            if(onlineNote==1){
-              notify("Print Online","success");
-            }
+						if(onlineNote==1){
+							notify("Print Online","success");
+						}
 						onlineNote = 0;
 						$("#netstatus").attr("class","netOnline");
 				},
 				error: function(msg) {
-            if(onlineNote==0){
-              onlineNote = 1;
-  						notify("Print Offline");
-  						$("#netstatus").attr("class","netOffline");
-            }
+						if(onlineNote==0){
+							onlineNote = 1;
+							notify("Print Offline");
+							$("#netstatus").attr("class","netOffline");
+						}
 				}
 		});
 	online();
