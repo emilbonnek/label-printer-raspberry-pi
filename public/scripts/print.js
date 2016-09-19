@@ -36,7 +36,9 @@ function printPrompt(product){
 }
 
 function variantPrompt(product){
+
 	product.data("open", !product.data("open"))
+
 	// Placer variant-prompten korrekt
 	$("#variant-prompt").appendTo(product.parent())
 	if (window.innerWidth > 640) {
@@ -72,28 +74,33 @@ function variantPrompt(product){
 		$("#variants").append(elem)
 	};
 	
+	smoothScroll("#variant-prompt", -50);
+
 	if (product.data("open")) {
+		$("#variant-prompt").slideDown()
 		product.find("#arrow").attr("src", "images/red_triangle.png")
 		product.siblings().find("#arrow").attr("src", "images/green_triangle.png")
-		$("#variant-prompt").slideDown()
 	} else {
 		product.find("#arrow").attr("src", "images/green_triangle.png")
-		$("#variant-prompt").slideUp()
-	};	
+		$("#variant-prompt").slideUp();
+		product.removeClass("active-prom");
+	};
 }
 
 	$('#results').on("click", 'li', function() {
 		var product = $(this)
 		if (product.data("item-num")!=$("#variant-prompt .info #item-num").text()) {
 			product.siblings().data("open", false)
-			product.siblings().find("#arrow").attr("src", "images/green_triangle.png")
-			$("#variant-prompt").slideUp()
+			product.siblings().find("#arrow").attr("src", "images/green_triangle.png");
+			//$("#variant-prompt").slideUp()
 		};
 		if (typeof $(this).data('variant') === 'string' || $(this).data('variant') == null){
 			// Varen har ingen varianter eller kun én variant
 			printPrompt(product);
 		} else {
 			// Varen har flere varianter
+			$(".active-prom").removeClass("active-prom");
+			$(this).addClass("active-prom");
 			variantPrompt(product);
 		}
 	});
