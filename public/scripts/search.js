@@ -1,3 +1,4 @@
+systemKeys = Array(8,9,13,16,17,18,20,27,33,34,35,36,37,38,39,40,45,46,91,92,93,106,107,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,144,145,186,187,188,189,190,191,192,219,220,221,222);
 $(document).ready(function(){
 
 	$("#q").focus();
@@ -39,6 +40,10 @@ $(document).ready(function(){
 		res = search($(this).find('input[name="item_number"]').val())
 		doLoadQ(res);
 		
+	});
+
+	$("#q_emty").click(function(){
+		$("#q").val("").focus();
 	});
 
 	online();
@@ -127,20 +132,6 @@ function search(q) {
 
 	$("#loadproof").hide();
 
-	return results
-
-	/*
-	terms.forEach(function(term){
-		for (index = 0; index < window.products.length; ++index) {
-			product = window.products[index];
-			if (product && (product.item_num.toUpperCase().indexOf(term) !== -1 || product.description.toUpperCase().indexOf(term) !== -1)) {
-				results.push(product);
-			}
-		}
-	})
-*/
-	
-
 	return results;
 }
 
@@ -188,7 +179,13 @@ function keyTyping(){
 			if($("#q").is(':focus')){
 
 			}else{
-				$("#q").focus().val($("#q").val()+event.key);
+				if(event.keyCode==27){
+					$("#q").val("").focus();
+					return;
+				}
+				if($.inArray(event.keyCode,systemKeys)<0){
+					$("#q").focus().val(event.key);
+				}
 			}
 		}
 	});

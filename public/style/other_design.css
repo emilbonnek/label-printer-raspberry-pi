@@ -1,6 +1,16 @@
 #q {
 	height:3.4rem;
 }
+#q_emty {
+	color: #AAAAAA;
+	cursor: pointer;
+	font-size: 1.5rem;
+	font-weight: bold;
+	line-height: 1;
+	position: absolute;
+	top: 0.85rem;
+	right: 1.375rem;
+}
 #no-search, #no-results {
 	display:none;
 }
@@ -123,5 +133,32 @@
   filter: alpha(opacity=0); }
 
 *:focus {
-    outline: none;
+	outline: none;
+}
+
+.row_left {
+	float: left;
+	width: 33%;
+}
+.row_right {
+	float: left;
+	width: 66%;
+	position: relative;
+    padding-left: 0.9375rem;
+    padding-right: 0.9375rem;
+}
+
+#image {
+	width: 400px;
+}
+
+@media only screen and (max-width: 600px) {
+	.row_left {
+		width: 100%;
+	}
+	.row_right {
+		width: 100%;
+		padding: 0;
+	}
+
 }
