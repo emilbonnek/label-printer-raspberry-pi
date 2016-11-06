@@ -14,6 +14,15 @@ $(document).ready(function(){
 		}
 	});
 
+	$("#searchForLnr").change(function(){
+		$("#search-form").trigger("submit")
+		if ($(this).prop("checked")) {
+			notify("Søgning efter leverandørnummer aktiv","info")
+		} else {
+			notify("Søgning efter leverandørnummer ikke længere aktiv","info")
+		}
+	});
+
 	$("#q").on('keyup',function(){
 		$("#loadproof").show();
 		value = $("#q").val()
@@ -63,9 +72,15 @@ function doLoadQ(matching_elems){
 			.data("price", product.price)
 			.data("variant",product.variant[0])
 			.data("l-num",product.l_num)
-			if (product.variant[0] != null){
-				elem.append("<span class='info label'>"+product.variant+"</span>")
-			}
+			.data("seson",product.seson)
+			.data("division",product.division)
+			// if (product.variant[0] != null){
+			// 	elem.append("<span class='info label'>"+product.variant+"</span>")
+			// }
+			if ($("#searchForLnr").prop("checked")) {
+				elem.append("<span class='left label'>"+product.l_num+"</span>")
+			};
+			elem.append("<span class='right warning label'>"+product.seson+"</span>")
 			elem.append("<br>")
 			elem.append("<h2>"+product.description+"</h2>")
 			elem.append("<br>")
@@ -78,8 +93,14 @@ function doLoadQ(matching_elems){
 			.data("price", product.price)
 			.data("variant",product.variant)
 			.data("l-num",product.l_num)
+			.data("seson",product.seson)
+			.data("division",product.division)
 			.data("open", false)
 
+			if ($("#searchForLnr").prop("checked")) {
+				elem.append("<span class='left label'>"+product.l_num+"</span>")
+			};
+			elem.append("<span class='right warning label'>"+product.seson+"</span>")
 			elem.append("<br>")
 			elem.append("<h2>"+product.description+"</h2>")
 			elem.append("<center><img id='arrow' src='images/green_triangle.png' height='19' width='19'></center>")
@@ -114,12 +135,28 @@ function search(q) {
 	window.products.forEach(function(product){
 		relevant = true
 		terms.forEach(function(term){
-			if (product && product.item_num.toUpperCase().indexOf(term)!==-1 || product.description.toUpperCase().indexOf(term)!==-1) {
+
+			
+			if ($("#searchForLnr").prop("checked") ) {
+				// Søg efter leverandørnummer
+				if (product && (product.l_num == null ? '' : product.l_num).toUpperCase().indexOf(term)!==-1) {
+
+				} else {
+					relevant = false
+				}
 
 			} else {
-				relevant = false
+				// Søg almindeligt
+				if (product && product.item_num.toUpperCase().indexOf(term)!==-1 || product.description.toUpperCase().indexOf(term)!==-1) {
+
+				} else {
+					relevant = false
+				}
 			}
+			
+
 		})
+
 		if (relevant){
 			results.push(product);
 		}

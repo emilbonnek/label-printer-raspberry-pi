@@ -59,7 +59,7 @@ end
 # ALLE kollonner i datafilen skal være i listen herunder i korrekt rækkefølge.
 headers  = [:bar_num, :barcode_description, :item_num, :variant, :price, :description, :x2, :l_num, :divison, :seson, :x6, :variant_code]
 # De kollonner der skal bruges skal OGSÅ fremgå i listen herunder.
-relevant = [:bar_num, :item_num, :variant, :price, :description, :l_num, :divison, :seson, :variant_code]
+relevant = [:bar_num, :item_num, :variant, :price, :description, :l_num, :divison, :seson]
 Csv = CSV.read('varer.csv', write_headers: true, headers:headers, encoding: "CP850", col_sep: ';', quote_char: "@")
 
 # Fjern kolonner der ikke er i brug
@@ -93,6 +93,8 @@ new_products = products.map do |item_num, variants|
   new_product[:bar_num] = variants.map{|variant| variant[:bar_num]}
   new_product[:variant] = variants.map{|variant| variant[:variant]}
   new_product[:price] = variants[0][:price]
+  new_product[:seson] = variants[0][:seson]
+  new_product[:division] = variants[0][:division]
   new_product
 end
 

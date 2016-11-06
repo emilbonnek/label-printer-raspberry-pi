@@ -23,6 +23,10 @@
 #results li {
 	height: 100px;
 }
+#results li .label {
+  max-width: 50%;
+  word-break: break-all;
+}
 #variant-prompt {
   display: none;
 }
