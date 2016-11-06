@@ -10,6 +10,7 @@
 
     <div class="small-10 medium-4 column">
       <input id="q" type="text" size="6" name="item_number" min="1" max="999999" placeholder="Søg">
+      <a id="q_emty">x</a>
       <input type="submit" class="button expand" style="display:none">
     </div>
     
@@ -74,8 +75,10 @@
       </div>
       <div class="medium-2 columns"></div>
     </div>
-    <div class="row">
-      <div class="large-4 columns">
+
+
+    <div class="row_left">
+      <div class="row">
         <div class="row collapse prefix-radius">
           <div class="small-4 columns">
             <span class="prefix">Nr.</span>
@@ -85,17 +88,8 @@
           </div>
         </div>
       </div>
-      <div class="large-8 columns">
-        <div class="row collapse prefix-radius">
-          <div class="small-4 columns">
-            <span class="prefix">Stregkode</span>
-          </div>
-          <div class="small-8 columns">
-            <input id="barcode-number" type="text" name="barcode_number" readonly="false" placeholder="Stregkode">
-          </div>
-        </div>
-      </div>
-      <div class="large-4 columns">
+
+      <div class="row">
         <div class="row collapse prefix-radius">
           <div class="small-4 columns">
             <span class="prefix">Pris</span>
@@ -105,12 +99,8 @@
           </div>
         </div>
       </div>
-      <div class="large-8 columns">
-        <img id="barcode">
-      </div>
-    </div>
-    <div class="row">
-      <div class="large-4 columns">
+
+      <div class="row">
         <div class="row collapse prefix-radius">
           <div class="small-4 columns">
             <span class="prefix">Variant</span>
@@ -120,10 +110,7 @@
           </div>
         </div>
       </div>
-      <div class="large-8 columns"></div>
-    </div>
-    <div class="row">
-      <div class="large-4 columns">
+      <div class="row">
         <div class="row collapse prefix-radius">
           <div class="small-4 columns">
             <span class="prefix">L Nr.</span>
@@ -133,10 +120,7 @@
           </div>
         </div>
       </div>
-      <div class="large-8 columns"></div>
-    </div>
-    <div class="row">
-      <div class="large-4 columns">
+      <div class="row">
         <div class="row collapse prefix-radius">
           <div class="small-4 columns">
             <span class="prefix">Antal</span>
@@ -146,10 +130,7 @@
           </div>
         </div>
       </div>
-      <div class="large-8 columns"></div>
-    </div>
-    <div class="row">
-      <div class="large-4 columns">
+      <div class="row">
         <div class="row collapse prefix-radius">
           <div class="small-4 columns">
             <span class="prefix">Type</span>
@@ -163,11 +144,30 @@
           </div>
         </div>
       </div>
-      <div class="large-4 columns">
-        <img id="image" src="" alt="test" />
-      </div>
-      <div class="large-8 columns"></div>
     </div>
+
+    <div class="row_right">
+      <div class="row">
+        <div class="large-12">
+          <div class="row collapse prefix-radius">
+            <div class="small-4 columns">
+              <span class="prefix">Stregkode</span>
+            </div>
+            <div class="small-8 columns">
+              <input id="barcode-number" type="text" name="barcode_number" readonly="false" placeholder="Stregkode">
+            </div>
+          </div>
+        </div>
+        <div class="large-12">
+          <img id="barcode">
+        </div>
+        <div class="large-12">
+          <img id="image" src="" alt="Billede" />
+        </div>
+      </div>
+    </div>
+
+
     <div class="row">
       <div class="small-12 columns">
         <input type="submit" value="Print label" class="button expand">
