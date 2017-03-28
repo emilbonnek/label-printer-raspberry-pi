@@ -73,10 +73,9 @@ post '/new_datafile' do
     new_product
   end
 
-  puts new_products
-
+  # Lav/opdater data-filer
   File.open('public/data/varer.json', 'wb') {|f| f.write new_products.to_json }
-  File.open('public/data/varer.csv', 'wb') {|f| f.write tmpfile }
+  File.open('public/data/varer.csv', 'wb') {|f| f.write tmpfile.read }
 
   redirect '/'
 end
