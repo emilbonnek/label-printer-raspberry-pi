@@ -184,14 +184,18 @@
   <h2 id="modalTitle">Indstillinger</h2>
 
   <ul class="tabs" data-tab>
-    <li class="tab-title active"><a href="#panel11">Data</a></li>
-    <li class="tab-title"><a href="#panel21">Andet</a></li>
-    <li class="tab-title"><a href="#panel31">Om</a></li>
+    <li class="tab-title active"><a href="#panel11">Produkter</a></li>
+    <li class="tab-title"><a href="#panel21">Log</a></li>
+    <li class="tab-title"><a href="#panel31">Andet</a></li>
+    <li class="tab-title"><a href="#panel41">Om</a></li>
 
   </ul>
   <div class="tabs-content panel">
     <div class="content active" id="panel11">
       <form action="/new_datafile" method="post" enctype="multipart/form-data">
+        Du kan opdatere listen af produkter ved at uploade en .csv fil (udtræk fra Navision).
+        <br />
+        <br />
         <div class="row">
           <div class="medium-4 columns">
             <input name="file" type="file" class="file-input">
@@ -203,10 +207,16 @@
       </form>
     </div>
     <div class="content" id="panel21">
-      <a href=":631">Printer-instillinger</a><a>
+      <p>
+        Du kan hente en liste over hvad der er printet.
+      </p>
+      <a href="/log">JSON</a><a>
     </div>
     <div class="content" id="panel31">
-      Af Emil Bonne Kristiansen. 
+      <a href=":631">Printer-instillinger</a><a>
+    </div>
+    <div class="content" id="panel41">
+      <p>Af Emil Bonne Kristiansen. </p>
       <a href="https://github.com/emilbonnek/label-printer-raspberry-pi">
         <img border="0" alt="GitHub" src="images/github_logo.png" width="100" height="100">
       </a>
