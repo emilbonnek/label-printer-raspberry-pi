@@ -2,6 +2,7 @@ require 'sinatra'
 require 'open-uri'
 require 'json'
 require 'csv'
+require 'date'
 
 require 'prawn'
 require 'barby/outputter/prawn_outputter'
@@ -104,6 +105,21 @@ end
 get '/log' do
   content_type :json
   redirect '/data/log.json'
+end
+
+get '/printers' do
+  content_type :json
+  regex = /printeren (.+) er ledig\.\s+Slået til siden \w{3}\s+(\d+)\s+(\w+)\s+(\w{2}:\w{2}:\w{2})\s+(\d+)/
+  cmd = `lpstat -p`
+  results = cmd.split("\n")
+  printers = []
+  results.each_with_index do |result, i|
+    printers[i] = {}
+    name, day, month, time, year = result.match(regex).captures
+    printers[i][:name] = name
+    printers[i][:time] = DateTime.parse("#{year}-#{month}-#{day} #{time}").strftime('%Y-%m-%d %H:%M')
+  end
+  printers.to_json
 end
 
 
