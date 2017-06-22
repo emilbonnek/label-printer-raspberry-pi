@@ -76,20 +76,16 @@ post '/new_datafile' do
 end
 
 post '/print' do
+  log(params)
+
   barcode_type = params[:barcode_type]
   barcode = Barcode.make(barcode_type, params[:barcode_number])
   label_settings = {item_number: params[:item_number], description:params[:description], variant:params[:variant], barcode: barcode}
   label = label_machine.create(label_settings)
 
   label.render_file "#{params[:item_number]}.pdf"
-  system('lpr', "#{params[:item_number]}.pdf", "-##{params[:amount]}") or raise 'kunne ikke printe'
+  system("lpr -P #{params[:printer]} -# #{params[:amount]} #{params[:item_number]}.pdf") or raise 'kunne ikke printe'
   system("rm #{params[:item_number]}.pdf")
-
-  barcode_type = params[:barcode_type] || "code_128"
-  barcode = Barcode.make(params[:barcode_number], barcode_type)
-  label_settings = {item_number: params[:item_number], description:params[:description], variant:params[:variant] ,barcode: barcode}
-
-  log(params)
 end
 
 get '/' do
@@ -99,28 +95,32 @@ end
 
 get '/products' do
   content_type :json
-  redirect '/data/varer.json'
+  File.read('public/data/varer.json')
 end
 
 get '/log' do
   content_type :json
-  redirect '/data/log.json'
+  File.read('public/data/log.json')
 end
 
-get '/printers' do
-  content_type :json
-  regex = /printeren (.+) er ledig\.\s+Slået til siden \w{3}\s+(\d+)\s+(\w+)\s+(\w{2}:\w{2}:\w{2})\s+(\d+)/
-  cmd = `lpstat -p`
-  results = cmd.split("\n")
-  printers = []
-  results.each_with_index do |result, i|
-    printers[i] = {}
-    name, day, month, time, year = result.match(regex).captures
-    printers[i][:name] = name
-    printers[i][:time] = DateTime.parse("#{year}-#{month}-#{day} #{time}").strftime('%Y-%m-%d %H:%M')
-  end
-  printers.to_json
-end
+# get '/printers' do
+#   content_type :json
+#   regex = /printeren (.+) er ledig\.\s+Slået til siden \w{3}\s+(\d+)\s+(\w+)\s+(\w{2}:\w{2}:\w{2})\s+(\d+)/
+#   cmd = `lpstat -p`
+#   results = cmd.split("\n")
+#   printers = []
+#   i=0
+#   results.each do |result|
+#     if result =~ regex
+#       printers[i] = {}
+#       name, day, month, time, year = result.match(regex).captures
+#       printers[i][:name] = name
+#       printers[i][:time] = DateTime.parse("#{year}-#{month}-#{day} #{time}").strftime('%Y-%m-%d %H:%M')
+#       i+=1
+#     end
+#   end
+#   printers.to_json
+# end
 
 
 def log(params)

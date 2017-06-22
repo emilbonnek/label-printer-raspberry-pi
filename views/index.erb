@@ -63,6 +63,7 @@
 
 <div id="print-modal" class="reveal-modal medium" data-reveal aria-labelledby="Print label" aria-hidden="true" role="dialog">
   <form id="print-form" action="/print" method="post">
+    <input id="printer" type="hidden" name="printer" value="zebra-net-spsp">
     <div class="row">
       <div class="medium-2 columns">
         <div class="switch tiny radius">
@@ -187,8 +188,7 @@
     <li class="tab-title active"><a href="#panel11">Produkter</a></li>
     <li class="tab-title"><a href="#panel21">Printere</a></li>
     <li class="tab-title"><a href="#panel31">Log</a></li>
-    <li class="tab-title"><a href="#panel41">Andet</a></li>
-    <li class="tab-title"><a href="#panel51">Om</a></li>
+    <li class="tab-title"><a href="#panel41">Om</a></li>
 
   </ul>
   <div class="tabs-content panel">
@@ -212,6 +212,7 @@
         Du kan se de tilgængelige printere
       </p>
       <ul id="printers" class="small-block-grid-1 medium-block-grid-2 large-block-grid-4"></ul>
+      <a href=":631">Printer-instillinger</a><a>
     </div>
     <div class="content" id="panel31">
       <p>
@@ -220,9 +221,6 @@
       <a href="/log">JSON</a><a>
     </div>
     <div class="content" id="panel41">
-      <a href=":631">Printer-instillinger</a><a>
-    </div>
-    <div class="content" id="panel51">
       <p>Af Emil Bonne Kristiansen. </p>
       <a href="https://github.com/emilbonnek/label-printer-raspberry-pi">
         <img border="0" alt="GitHub" src="images/github_logo.png" width="100" height="100">
