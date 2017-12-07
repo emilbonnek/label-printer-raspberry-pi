@@ -1,5 +1,2 @@
-/labels/*.pdf
-log.txt
-varer.csv
-varer_old.csv
 .idea
+/public/data/*

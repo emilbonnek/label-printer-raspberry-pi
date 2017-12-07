@@ -1,6 +1,8 @@
 require 'sinatra'
+require 'open-uri'
 require 'json'
 require 'csv'
+require 'date'
 
 require 'prawn'
 require 'barby/outputter/prawn_outputter'
@@ -14,97 +16,119 @@ set :port, 80
 
 get '/alive' do
   status 200
-  body "jeg er her"
-end
-
-get '/print' do
-  status 405
-  body "Brug POST istedet"
+  body 'jeg er her'
 end
 
 post '/new_datafile' do
   unless params[:file] &&
          (tmpfile = params[:file][:tempfile]) &&
          (name = params[:file][:filename])
-    "Fejl!"
+    'Hjælp, noget gik galt! Er du sikker på at den fil du brugte er god?'
   end
-  STDERR.puts "Uploading file, original name #{name.inspect}"
 
-  File.open('varer.csv', 'wb') {|f| f.write tmpfile.read }
+  # ALLE kollonner i datafilen skal være i listen herunder i korrekt rækkefølge.
+  headers  = [:bar_num, :barcode_description, :item_num, :variant, :price, :description, :x2, :l_num, :divison, :seson, :x6, :variant_code]
+  # De kollonner der skal bruges skal OGSÅ fremgå i listen herunder.
+  relevant = [:bar_num, :item_num, :variant, :price, :description, :l_num, :divison, :seson]
+  new_csv_file = CSV.read(tmpfile, write_headers: true, headers:headers, encoding: 'CP850', col_sep: ';', quote_char: '@')
 
-  body "Filen blev uploadet"
+  # Fjern kolonner der ikke er i brug
+  (headers - relevant).each do |irelevant|
+    new_csv_file.delete(irelevant)
+  end
+
+  products = new_csv_file.map { |product| product.to_hash }
+
+  # Grupper linjer efter varenummer dvs. at alle varianter til en vare nu ligger under varenummeret de tilhører
+  products = products.group_by{|product| product[:item_num] }
+
+  new_products = products.map do |item_num, variants|
+    # Hvis der findes en vare der både kommer med variant og ikke variant, så slet dem uden variant. eks. 501648
+    if variants.length > 1 and variants.any? {|variant| variant[:variant]!=nil }
+      variants.delete_if {|variant| variant[:variant]==nil}
+    end
+    # Skriv oprettelsesdatoer i alle produkter ordentligt
+    variants.each do |variant|
+      variant[:x6] = (variant[:x6] ? Date.strptime(variant[:x6], '%d-%m-%y') : Date.new)
+    end
+    # Sorter efter stregkode (med 29 først som prioritet) og oprettelsesdato
+    variants.sort_by!{|variant| [variant[:bar_num][0..1].to_i-29, variant[:x6]]}
+    # Hvis der en variant fremgår flere gange så vælg den første og drop de andre (hint. varianterne blev sorteret ovenfor)
+    variants.uniq! {|v| v[:variant]}
+    # Opret en enkelet ny "linje" med informationer om alle varianter af dette produkt
+    new_product = Hash.new
+    new_product[:item_num] = item_num
+    new_product[:description] = variants[0][:description]
+    new_product[:l_num] = variants[0][:l_num]
+    new_product[:bar_num] = variants.map{|variant| variant[:bar_num]}
+    new_product[:variant] = variants.map{|variant| variant[:variant]}
+    new_product[:price] = variants[0][:price]
+    new_product[:seson] = variants[0][:seson]
+    new_product[:division] = variants[0][:division]
+    new_product
+  end
+
+  # Lav/opdater data-filer
+  File.open('public/data/varer.json', 'wb') {|f| f.write new_products.to_json }
+  File.open('public/data/varer.csv', 'wb') {|f| f.write tmpfile.read }
+
+  redirect '/'
 end
 
 post '/print' do
+  log(params)
+
   barcode_type = params[:barcode_type]
   barcode = Barcode.make(barcode_type, params[:barcode_number])
   label_settings = {item_number: params[:item_number], description:params[:description], variant:params[:variant], barcode: barcode}
   label = label_machine.create(label_settings)
 
-  label.render_file "labels/#{params[:item_number]}.pdf"
-  system("lpr", "labels/#{params[:item_number]}.pdf","-##{params[:amount]}") or raise "kunne ikke printe"
-  system("rm labels/#{params[:item_number]}.pdf")
-
-  barcode_type = params[:barcode_type] || "code_128"
-  barcode = Barcode.make(params[:barcode_number], barcode_type)
-  label_settings = {item_number: params[:item_number], description:params[:description], variant:params[:variant] ,barcode: barcode}
-  
-  File.open('log.txt', 'a') do |f|
-    t = Time.now.strftime("%Y-%m-%d %H:%M")
-    f.puts(t+";PRINT;#{params[:item_number]};#{params[:variant]};#{params[:amount]};#{params[:description]};#{barcode.to_s}")
-  end
+  label.render_file "#{params[:item_number]}.pdf"
+  system("lpr -P #{params[:printer]} -# #{params[:amount]} #{params[:item_number]}.pdf") or raise 'kunne ikke printe'
+  system("rm #{params[:item_number]}.pdf")
 end
-
-# --
-# ALLE kollonner i datafilen skal være i listen herunder i korrekt rækkefølge.
-headers  = [:bar_num, :barcode_description, :item_num, :variant, :price, :description, :x2, :l_num, :divison, :seson, :x6, :variant_code]
-# De kollonner der skal bruges skal OGSÅ fremgå i listen herunder.
-relevant = [:bar_num, :item_num, :variant, :price, :description, :l_num, :divison, :seson]
-Csv = CSV.read('varer.csv', write_headers: true, headers:headers, encoding: "CP850", col_sep: ';', quote_char: "@")
-
-# Fjern kolonner der ikke er i brug
-(headers - relevant).each do |irelevant|
-  Csv.delete(irelevant)
-end
-
-products = Csv.map { |product| product.to_hash }
-
-# Grupper linjer efter varenummer dvs. at alle varianter til en vare nu ligger under varenummeret de tilhører
-products = products.group_by{|product| product[:item_num] }
-
-new_products = products.map do |item_num, variants|
-  # Hvis der findes en vare der både kommer med variant og ikke variant, så slet dem uden variant. eks. 501648
-  if variants.length > 1 and variants.any? {|variant| variant[:variant]!=nil }
-    variants.delete_if {|variant| variant[:variant]==nil}
-  end
-  # Skriv oprettelsesdatoer i alle produkter ordentligt
-  variants.each do |variant|
-    variant[:x6] = (variant[:x6] ? Date.strptime(variant[:x6], "%d-%m-%y") : Date.new)
-  end
-  # Sorter efter stregkode (med 29 først som prioritet) og oprettelsesdato
-  variants.sort_by!{|variant| [variant[:bar_num][0..1].to_i-29, variant[:x6]]}
-  # Hvis der en variant fremgår flere gange så vælg den første og drop de andre (hint. varianterne blev sorteret ovenfor)
-  variants.uniq! {|v| v[:variant]}
-  # Opret en enkelet ny "linje" med informationer om alle varianter af dette produkt
-  new_product = Hash.new
-  new_product[:item_num] = item_num
-  new_product[:description] = variants[0][:description]
-  new_product[:l_num] = variants[0][:l_num]
-  new_product[:bar_num] = variants.map{|variant| variant[:bar_num]}
-  new_product[:variant] = variants.map{|variant| variant[:variant]}
-  new_product[:price] = variants[0][:price]
-  new_product[:seson] = variants[0][:seson]
-  new_product[:division] = variants[0][:division]
-  new_product
-end
-
-File.open('public/varer.json', 'wb') {|f| f.write new_products.to_json }
 
 get '/' do
   @barcode_types = Barcode::TYPES.keys
   erb :index
 end
-post '/products' do
+
+get '/products' do
   content_type :json
-  redirect "/varer.json"
+  File.read('public/data/varer.json')
+end
+
+get '/log' do
+  content_type :json
+  File.read('public/data/log.json')
+end
+
+# get '/printers' do
+#   content_type :json
+#   regex = /printeren (.+) er ledig\.\s+Slået til siden \w{3}\s+(\d+)\s+(\w+)\s+(\w{2}:\w{2}:\w{2})\s+(\d+)/
+#   cmd = `lpstat -p`
+#   results = cmd.split("\n")
+#   printers = []
+#   i=0
+#   results.each do |result|
+#     if result =~ regex
+#       printers[i] = {}
+#       name, day, month, time, year = result.match(regex).captures
+#       printers[i][:name] = name
+#       printers[i][:time] = DateTime.parse("#{year}-#{month}-#{day} #{time}").strftime('%Y-%m-%d %H:%M')
+#       i+=1
+#     end
+#   end
+#   printers.to_json
+# end
+
+
+def log(params)
+  params[:time] = Time.now.strftime('%Y-%m-%d %H:%M');
+  log = File.read('public/data/log.json')
+  jsonedLog = JSON.parse(log)
+  jsonedLog << params
+  File.open('public/data/log.json', 'w') do |f|
+    f.puts JSON.pretty_generate(jsonedLog)
+  end
 end

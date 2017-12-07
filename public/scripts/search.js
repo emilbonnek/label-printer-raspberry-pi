@@ -4,7 +4,7 @@ $(document).ready(function(){
 	$("#q").focus();
 	esc();
 	// Hent produkter til klient for hurtigere søgning
-	$.ajax({type: 'POST',
+	$.ajax({type: 'GET',
 		url: '/products',
 		dataType: 'json',
 		success: function(response){

@@ -156,6 +156,11 @@
 	width: 400px;
 }
 
+#printers li div p {
+	word-wrap: break-word;
+}
+
+
 @media only screen and (max-width: 600px) {
 	.row_left {
 		width: 100%;
